@@ -1,6 +1,7 @@
 set blenderPath=..\Blender\blender.exe
 set conversion_script=..\Blender\2.79\scripts\addons\object_convert.py
 
+
 for %%I in (%1) do set name=%%~nxI
 
 mkdir %1\..\..\Output\%name%
@@ -80,9 +81,11 @@ REM BASIC VARIABLES
 
 set inPath=%1\%name%.%object_extension%
 set colorPath=%1\%name%.%image_extension%
-set diffuse_resolution=512
-set normal_resolution=512
-set resolution_indicator=%diffuse_resolution%-%normal_resolution%
+
+REM For now, the output file won't have any indication on the texture resolution. As it is supposed to not be changed or having be changed before, we ought to record the resolution somewhere so that it is always displayed on the object name. 
+REM set diffuse_resolution=512
+REM set normal_resolution=512
+REM set resolution_indicator=%diffuse_resolution%-%normal_resolution%
 
 if exist "%inputFullPath%\%name%_normal.%image_extension%" (goto:normal) else (goto:notnormal)
 
@@ -100,14 +103,17 @@ echo normalPath is %normalPath%
 
 
 
-mkdir %1\..\..\Output\%name%\%resolution_indicator%\glb
+REM mkdir %1\..\..\Output\%name%\%resolution_indicator%\glb
+mkdir %1\..\..\Output\%name%\glb
+
+REM set outputFullPath=%1\..\..\Output\%name%\%resolution_indicator%\glb
+REM set gltf_output_path=%1\..\..\Output\%name%\%resolution_indicator%
+
+set outputFullPath=%1\..\..\Output\%name%\glb
+set gltf_output_path=%1\..\..\Output\%name%\
 
 
-set outputFullPath=%1\..\..\Output\%name%\%resolution_indicator%\glb
-set gltf_output_path=%1\..\..\Output\%name%\%resolution_indicator%
-
-
-%blenderPath% -b -P %conversion_script% -- %inPath% %object_extension% %outputFullPath% %colorPath% %normalPath% %diffuse_resolution% %normal_resolution% %name% %gltf_output_path%
+%blenderPath% -b -P %conversion_script% -- %inPath% %object_extension% %outputFullPath% %colorPath% %normalPath% %name% %gltf_output_path%
 
 
 

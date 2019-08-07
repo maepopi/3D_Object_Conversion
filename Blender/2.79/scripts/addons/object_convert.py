@@ -8,22 +8,22 @@ bpy.context.scene.render.engine = "CYCLES"
 rootfolder = os.path.join(sys.argv[5])
 obj_extension = os.path.join(sys.argv[6])
 outputFolderPath = os.path.join(sys.argv[7])
-gltf_output_path = os.path.join(sys.argv[13])
+gltf_output_path = os.path.join(sys.argv[11])
 diffuse_path = os.path.join(sys.argv[8])
-obj_name = os.path.join(sys.argv[12])
+obj_name = os.path.join(sys.argv[10])
 
 if sys.argv[9] == "None":
 	normal_path = None
 	isNormal=False
-	normal_resolution=None
+	# normal_resolution=None
 
 else:
 
 	normal_path = os.path.join( sys.argv[9])
 	isNormal=True
-	normal_resolution = sys.argv[11]
+	# normal_resolution = sys.argv[11]
 
-diffuse_resolution = sys.argv[10]
+# diffuse_resolution = sys.argv[10]
 
 obj_list = []
 obj_list.append(rootfolder)
@@ -136,16 +136,21 @@ def CreateMaterial(diffuse_path, normal_path):
 
 		link_normal = links.new( norm_texture_node.outputs[0], BSDF.inputs[17])
 
+
+
+
 	return mat
 
 
 
-def Export(outputFolderPath, obj_name, diffuse_resolution, normal_resolution):
-	if normal_resolution is not None:
-		export_filepath=os.path.join(outputFolderPath, obj_name + "_" + diffuse_resolution + "-" +  normal_resolution + ".glb" )
+def Export(outputFolderPath, obj_name):
+	# if normal_resolution is not None:
+	# 	export_filepath=os.path.join(outputFolderPath, obj_name + "_" + diffuse_resolution + "-" +  normal_resolution + ".glb" )
+	#
+	# else:
+	# 	export_filepath = os.path.join( outputFolderPath, obj_name + "_" + diffuse_resolution + "-" + ".glb" )
 
-	else:
-		export_filepath = os.path.join( outputFolderPath, obj_name + "_" + diffuse_resolution + "-" + ".glb" )
+	export_filepath = os.path.join( outputFolderPath,obj_name + ".glb" )
 	bpy.ops.export_scene.gltf(filepath=export_filepath,export_format="GLB", export_selected=True)
 
 	#bpy.ops.object.delete()
@@ -158,7 +163,7 @@ def Run():
 
 	curr_object.data.materials[0]= CreateMaterial(diffuse_path,  normal_path)
 
-	Export(outputFolderPath, obj_name, diffuse_resolution, normal_resolution)
+	Export(outputFolderPath, obj_name)
 
 
 
