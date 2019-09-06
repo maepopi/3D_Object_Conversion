@@ -159,9 +159,15 @@ def Run():
 
 	curr_object= Import(obj_list, obj_extension)
 
-	print( "HEYYYYYYYYYYYYYY " + str(curr_object) )
+	#It is possible that the object has no slot material, and Blender is gonna fuss. Hence this security measure:
 
-	curr_object.data.materials[0]= CreateMaterial(diffuse_path,  normal_path)
+	if curr_object.data.materials:
+		curr_object.data.materials[0]= CreateMaterial(diffuse_path, normal_path)
+
+	else:
+
+		curr_object.data.materials.append(CreateMaterial(diffuse_path, normal_path))
+
 
 	Export(outputFolderPath, obj_name)
 
