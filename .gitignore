@@ -4,3 +4,8 @@
 *.jpg
 *.jpeg
 *.glb
+*.bin
+*.gltf
+*.mtl
+*.ply
+*.stl
