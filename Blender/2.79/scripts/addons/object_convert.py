@@ -93,7 +93,7 @@ def CreateMaterial(diffuse_path, normal_path):
 	reduced_normal_path = None
 	reduced_diffuse_path = None
 
-	mat = bpy.data.materials.new( "NewMat" )
+	mat = bpy.data.materials.new("NewMat")
 
 
 	mat.use_nodes = True
@@ -165,8 +165,13 @@ def Run():
 		curr_object.data.materials[0]= CreateMaterial(diffuse_path, normal_path)
 
 	else:
+		mat = CreateMaterial(diffuse_path, normal_path)
+		curr_object.data.materials.append(mat)
+		#Temporary fix would be to delete the slot[1]
+		# curr_object.data.materials.pop(0, update_data=True) ==> Doesn't work, even removing the first material removes the second one. Maybe they are linked somehow?
 
-		curr_object.data.materials.append(CreateMaterial(diffuse_path, normal_path))
+
+
 
 
 	Export(outputFolderPath, obj_name)
